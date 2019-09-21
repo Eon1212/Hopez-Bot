@@ -1,0 +1,25 @@
+{
+  "name": "package.json",
+  "version": "1.0.0",
+  "description": "A test bot",
+  "main": ".",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eon",
+  "license": "ISC",
+  "dependencies": {
+    "ascii-table": "0.0.9",
+    "cathyjs": "^5.0.2",
+    "common-tags": "^1.8.0",
+    "discord.js": "^11.5.1",
+    "discord.js-giveaway": "^1.0.2",
+    "dotenv": "^8.1.0",
+    "fs": "0.0.1-security",
+    "moment": "^2.24.0",
+    "moment-duration-format": "^2.3.2",
+    "ms": "^2.1.2",
+    "nodemon": "^1.19.2",
+    "superagent": "^5.1.0"
+  }
+}
