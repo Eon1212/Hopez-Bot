@@ -1,21 +1,22 @@
 const { Client, Collection } = require("discord.js");
 const { config } = require("dotenv");
+const Discord = require("discord.js");
+const giveaways = require("discord-giveaway");
 const cathyjs = require("cathyjs");
-const prefix = ">";
-const serverStats = {
-    guildID: '534762874531217419', //Guild ID
-    totalUsersID: '623420862846074889', //Total Users : 0
-    memberCountID: '623421083592294401', //Member Count : 0
-    botCountID: '623421220594909184' //Bot Count: 0
-};
 
 const client = new Client({
     disableEveryone: true
 })
 
+
+const fs = require("fs");
+const prefix = ">";
+let coins = require("./coins.json");
+
 // Collections
 client.commands = new Collection();
 client.aliases = new Collection();
+client.categories = fs.readdirSync("./commands/");
 
 config({
     path: __dirname + "/.env"
@@ -38,31 +39,33 @@ client.on("ready", () => {
     }); 
 })
 
-client.on('guildMemberAdd', member =>{
+client.on("channelCreate", async channel => {
+    console.log(`${channel.name} has been created`)
 
-    if(member.guild.id !== serverStats.guildID) return;
+    let sCHannel = message.guild.channels.find(c => c.name === "logs")
+    
+    const embed = new Discord.RichEmbed
+    .setColor("GREEN")
+    .setTimestamps()
+    .setAuthor(message.guild.iconURL)
+    .addField(`${channel} has been created`);
 
-    client.channels.get(serverStats.totalUsersID).setName(`Total Users : ${member.guild.memberCount}`); //Total
-    client.channels.get(serverStats.memberCountID).setName(`Member Count : ${member.guild.members.filter(m => !m.user.bot).size}`); //Member
-    client.channels.get(serverStats.botCountID).setName(`Bot Count : ${member.guild.members.filter(m => m.user.bot).size}`) //Bot
+    sCHannel.send(embed)
+})
+giveaways.launch(client, {
+    updateCountdownEvery: 7000,
+    botsCanWin: false,
+    embedColor: "#FF0000",
+    reaction: "🎉",
+    storage: "./giveaways.json"
 });
-
-client.on('guildMemberRemove', member =>{
-
-    if(member.guild.id !== serverStats.guildID) return;
-
-    client.channels.get(serverStats.totalUsersID).setName(`Total Users : ${member.guild.memberCount}`);
-    client.channels.get(serverStats.memberCountID).setName(`Member Count ${member.guild.members.filter(m => !m.user.bot).size}`);
-    client.channels.get(serverStats.botCountID).setName(`Bot Count : ${member.guild.members.filter(m => m.user.bot).size}`)
-});
-
 client.on("message", async message => {
   
 
     if (message.author.bot) return;
     if (!message.guild) return;
-
-    let channel = client.channels.get("604663703463395340")
+  
+    let channel = client.channels.get("633540568034705429")
     
     if (message.channel.id == channel.id) {
  
@@ -75,7 +78,9 @@ client.on("message", async message => {
         channel.send(`${message.author}, ${reply}`);
         message.channel.stopTyping();
     } 
+
     if (!message.content.startsWith(prefix)) return;
+    
 
     // If message.member is uncached, cache it.
     if (!message.member) message.member = await message.guild.fetchMember(message);
@@ -96,5 +101,19 @@ client.on("message", async message => {
 
         
 });
+
+client.on("channelCreate", async channel => {
+    console.log(`${channel.name} has been created`)
+
+    let sCHannel = message.guild.channels.find(c => c.name === "logs")
+    
+    const embed = new Discord.RichEmbed
+    .setColor("GREEN")
+    .setTimestamps()
+    .setAuthor(message.guild.iconURL)
+    .addField(`${channel} has been created`);
+
+    sCHannel.send(embed)
+})
 
 client.login(process.env.TOKEN);

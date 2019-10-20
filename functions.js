@@ -34,5 +34,8 @@ module.exports = {
         return message
             .awaitReactions(filter, { max: 1, time: time})
             .then(collected => collected.first() && collected.first().emoji.name);
+    },
+    emoji: function (id) {
+        return client.emojis.get(id).toString();
     }
 }
