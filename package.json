@@ -26,7 +26,7 @@
     "git": "^0.1.5",
     "give-me-a-joke": "^0.1.2",
     "google-translate-api": "^2.3.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "moment-duration-format": "^2.3.2",
     "ms": "^2.1.2",
     "nodemon": "^1.19.3",
